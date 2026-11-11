@@ -1,0 +1,66 @@
+# EvoSkill project configuration used in this example.
+# Copy this file to .evoskill/config.toml in your project folder
+# after running `evoskill init`, then set your own dataset path below.
+
+[harness]
+# Agent runtime used to execute EvoSkill runs.
+name = "claude"
+
+# Default model for the selected runtime.
+model = "anthropic/claude-sonnet-4-6"
+
+# Additional folders the agent can interact with during runs.
+data_dirs = []
+
+# Maximum time allowed for one agent attempt, in seconds.
+timeout_seconds = 1200
+
+# How many times to retry a failed or timed-out agent attempt.
+max_retries = 3
+
+[evolution]
+# What EvoSkill is allowed to optimize: skills or the base prompt.
+mode = "skill_only"
+
+# Maximum number of improvement iterations to run (default is 7).
+iterations = 10
+
+# How many top programs to keep in the frontier at once.
+frontier_size = 3
+
+# How many evaluations can run in parallel.
+concurrency = 4
+
+# Stop after this many iterations with no improvement.
+no_improvement_limit = 5
+
+# How many failing examples to sample when proposing changes.
+failure_samples = 3
+
+[dataset]
+# Dataset source: "csv" or "harbor".
+source = "csv"
+
+# Absolute path to the dataset CSV. Replace YOUR-USERNAME with your own.
+# Keep the CSV outside the project folder so the agent can't read the answers.
+path = "/Users/YOUR-USERNAME/Documents/evoskill/answer-key/emails.csv"
+
+# CSV column containing the question or task input.
+question_column = "question"
+
+# CSV column containing the expected answer.
+ground_truth_column = "ground_truth"
+
+# CSV column used to group or stratify examples.
+category_column = "category"
+
+# Fraction of each category used for training samples (default is 0.18).
+train_ratio = 0.6
+
+# Fraction of each category used for validation samples (default is 0.12).
+val_ratio = 0.4
+
+[scorer]
+# Grade each email with a rubric instead of an exact match.
+type = "llm"
+rubric = "The expected answer is a real email written for the same brief. Use it as a quality bar, not wording to copy. Score 1.0 if the new email is as good or better: strong subject line, one clear message, a specific benefit for the reader, one clear call to action, concise and on-brand. Score 0.5 if it is usable but generic or too long. Score 0.0 if it misses the brief."
